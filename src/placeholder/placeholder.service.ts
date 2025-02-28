@@ -25,8 +25,10 @@ export class PlaceholderService {
 	registerViewContainerRef(vcRef: ViewContainerRef, id?: any): void {
 		if (id) {
 			this.viewContainerMap.set(id, vcRef);
-		} else {
+		} else if (this.viewContainerRef === null) {
 			this.viewContainerRef = vcRef;
+		} else {
+			console.error("View container has already been defined.");
 		}
 	}
 
