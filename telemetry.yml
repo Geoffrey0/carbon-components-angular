@@ -1,0 +1,4 @@
+# IBM Telemetry Configuration
+# This file is used for telemetry collection
+version: 1
+projectId: carbon-components-angular
