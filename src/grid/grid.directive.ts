@@ -1,4 +1,5 @@
 import {
+	AfterContentInit,
 	ContentChildren,
 	Directive,
 	HostBinding,
@@ -33,7 +34,7 @@ import { GridService } from "./grid.service";
 		}
 	]
 })
-export class GridDirective implements OnInit, OnDestroy {
+export class GridDirective implements OnInit, OnDestroy, AfterContentInit {
 	/**
 	 * Set to `true` to condense the grid
 	 */
@@ -105,13 +106,21 @@ export class GridDirective implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.subscription = this.gridService.gridObservable.subscribe((isCssGrid: boolean) => {
 			this.cssGridEnabled = isCssGrid;
+			this.updateCssGridChildren();
 		});
 	}
 
+	ngAfterContentInit() {
+		this.updateCssGridChildren();
+	}
+
 	// Make all children grids a sub grid
-	@ContentChildren(GridDirective, { descendants: true }) set cssGridChildren(list: QueryList<GridDirective>) {
-		if (this.cssGridEnabled) {
-			list.forEach((grid) => {
+	@ContentChildren("[cdsGrid], [ibmGrid]", { descendants: true, read: GridDirective })
+	cssGridChildren: QueryList<GridDirective>;
+
+	private updateCssGridChildren() {
+		if (this.cssGridEnabled && this.cssGridChildren) {
+			this.cssGridChildren.forEach((grid) => {
 				// Prevents initial (parent) grid element from being turned into a subgrid
 				if (grid === this) {
 					return;

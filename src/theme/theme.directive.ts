@@ -38,7 +38,7 @@ export class ThemeDirective implements AfterContentChecked {
 	 */
 	@Input() cdsTheme: ThemeType | "" = "white";
 
-	@ContentChildren(LayerDirective, { descendants: false }) layerChildren: QueryList<LayerDirective>;
+	@ContentChildren("[cdsLayer], [ibmLayer]", { descendants: false, read: LayerDirective }) layerChildren: QueryList<LayerDirective>;
 
 	/**
 	 * Using host bindings with classes to ensure we do not

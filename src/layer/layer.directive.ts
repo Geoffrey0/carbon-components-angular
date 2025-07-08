@@ -84,7 +84,7 @@ export class LayerDirective implements AfterContentInit {
 		return this.layer === 2;
 	}
 
-	@ContentChildren(LayerDirective, { descendants: false }) layerChildren: QueryList<LayerDirective>;
+	@ContentChildren("[cdsLayer], [ibmLayer]", { descendants: false, read: LayerDirective }) layerChildren: QueryList<LayerDirective>;
 
 	// Holds user passsed level
 	private _passedLevel;
